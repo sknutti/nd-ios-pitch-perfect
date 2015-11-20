@@ -21,18 +21,17 @@ class PlaySoundsViewController: UIViewController {
         
         do {
             try audioPlayer = AVAudioPlayer(contentsOfURL: receivedAudio.filePathUrl)
-        } catch {
-            showAlert("Unable to load mp3 file")
+        } catch let error as NSError {
+            showAlert("\(error.localizedDescription)")
         }
         audioPlayer.enableRate = true
         
         audioEngine = AVAudioEngine()
         do {
             try audioFile = AVAudioFile(forReading: receivedAudio.filePathUrl)
-        } catch {
-            showAlert("Unable to load mp3 file")
+        } catch let error as NSError {
+            showAlert("\(error.localizedDescription)")
         }
-        
     }
 
     @IBAction func playSlowAudio(sender: UIButton) {
@@ -70,8 +69,8 @@ class PlaySoundsViewController: UIViewController {
         audioPlayerNode.scheduleFile(audioFile, atTime: nil, completionHandler: nil)
         do {
             try audioEngine.start()
-        } catch {
-            showAlert("Unable to start playback")
+        } catch let error as NSError {
+            showAlert("\(error.localizedDescription)")
         }
         
         audioPlayerNode.play()
@@ -93,8 +92,8 @@ class PlaySoundsViewController: UIViewController {
         audioPlayerNode.scheduleFile(audioFile, atTime: nil, completionHandler: nil)
         do {
             try audioEngine.start()
-        } catch {
-            showAlert("Unable to start playback")
+        } catch let error as NSError {
+            showAlert("\(error.localizedDescription)")
         }
         
         audioPlayerNode.play()
@@ -128,8 +127,8 @@ class PlaySoundsViewController: UIViewController {
         audioPlayerNode.scheduleFile(audioFile, atTime: nil, completionHandler: nil)
         do {
             try audioEngine.start()
-        } catch {
-            showAlert("Unable to start playback")
+        } catch let error as NSError {
+            showAlert("\(error.localizedDescription)")
         }
         
         audioPlayerNode.play()
