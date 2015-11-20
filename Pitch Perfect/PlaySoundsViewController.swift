@@ -22,7 +22,7 @@ class PlaySoundsViewController: UIViewController {
         do {
             try audioPlayer = AVAudioPlayer(contentsOfURL: receivedAudio.filePathUrl)
         } catch {
-            print("Unable to load mp3 file")
+            showAlert("Unable to load mp3 file")
         }
         audioPlayer.enableRate = true
         
@@ -30,26 +30,11 @@ class PlaySoundsViewController: UIViewController {
         do {
             try audioFile = AVAudioFile(forReading: receivedAudio.filePathUrl)
         } catch {
-            print("Unable to load mp3 file")
+            showAlert("Unable to load mp3 file")
         }
         
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
     @IBAction func playSlowAudio(sender: UIButton) {
         playAudio(0.5)
     }
@@ -67,24 +52,69 @@ class PlaySoundsViewController: UIViewController {
     }
     
     @IBAction func stopAudio(sender: UIButton) {
-        audioPlayer.stop()
+        stopAllAudio()
     }
     
-    func playAudio(playRate: Float) {
+    @IBAction func playEchoAudio(sender: UIButton) {
+        stopAllAudio()
+        let audioPlayerNode = AVAudioPlayerNode()
+        audioEngine.attachNode(audioPlayerNode)
+        
+        let echoEffect = AVAudioUnitDelay()
+        echoEffect.delayTime = NSTimeInterval(0.3)
+        audioEngine.attachNode(echoEffect)
+        
+        audioEngine.connect(audioPlayerNode, to: echoEffect, format: nil)
+        audioEngine.connect(echoEffect, to: audioEngine.outputNode, format: nil)
+        
+        audioPlayerNode.scheduleFile(audioFile, atTime: nil, completionHandler: nil)
+        do {
+            try audioEngine.start()
+        } catch {
+            showAlert("Unable to start playback")
+        }
+        
+        audioPlayerNode.play()
+    }
+    
+    @IBAction func playReverbAudio(sender: UIButton) {
+        stopAllAudio()
+        let audioPlayerNode = AVAudioPlayerNode()
+        audioEngine.attachNode(audioPlayerNode)
+        
+        let reverbEffect = AVAudioUnitReverb()
+        reverbEffect.loadFactoryPreset(.Cathedral)
+        reverbEffect.wetDryMix = 50
+        audioEngine.attachNode(reverbEffect)
+        
+        audioEngine.connect(audioPlayerNode, to: reverbEffect, format: nil)
+        audioEngine.connect(reverbEffect, to: audioEngine.outputNode, format: nil)
+        
+        audioPlayerNode.scheduleFile(audioFile, atTime: nil, completionHandler: nil)
+        do {
+            try audioEngine.start()
+        } catch {
+            showAlert("Unable to start playback")
+        }
+        
+        audioPlayerNode.play()
+    }
+    
+    func stopAllAudio() {
         audioPlayer.stop()
         audioEngine.stop()
         audioEngine.reset()
-        
+    }
+    
+    func playAudio(playRate: Float) {
+        stopAllAudio()
         audioPlayer.rate = playRate
         audioPlayer.currentTime = 0.0
         audioPlayer.play()
     }
     
     func playAudioWithVariablePitch(pitch: Float) {
-        audioPlayer.stop()
-        audioEngine.stop()
-        audioEngine.reset()
-        
+        stopAllAudio()
         let audioPlayerNode = AVAudioPlayerNode()
         audioEngine.attachNode(audioPlayerNode)
         
@@ -99,9 +129,15 @@ class PlaySoundsViewController: UIViewController {
         do {
             try audioEngine.start()
         } catch {
-            print("Unable to start playback")
+            showAlert("Unable to start playback")
         }
         
         audioPlayerNode.play()
+    }
+    
+    func showAlert(message: String) {
+        let alert = UIAlertController(title: "Alert", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Click", style: UIAlertActionStyle.Default, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
     }
 }
