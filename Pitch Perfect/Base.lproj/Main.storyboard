@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="15C47a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Nxo-KI-L2T">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -46,9 +47,6 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
-                                <variation key="widthClass=compact" misplaced="YES">
-                                    <rect key="frame" x="144" y="350" width="113" height="21"/>
-                                </variation>
                             </label>
                         </subviews>
                         <animations/>
@@ -113,9 +111,6 @@
                                 <rect key="frame" x="-23" y="-15" width="46" height="30"/>
                                 <animations/>
                                 <state key="normal" image="PlaySlow"/>
-                                <variation key="widthClass=compact" misplaced="YES">
-                                    <rect key="frame" x="51" y="113" width="103" height="100"/>
-                                </variation>
                                 <connections>
                                     <action selector="playSlowAudio:" destination="JnY-nC-5YX" eventType="touchUpInside" id="PlC-S7-KJE"/>
                                 </connections>
@@ -132,9 +127,6 @@
                                 <rect key="frame" x="-23" y="-15" width="46" height="30"/>
                                 <animations/>
                                 <state key="normal" image="Chipmunk"/>
-                                <variation key="widthClass=compact" misplaced="YES">
-                                    <rect key="frame" x="52" y="250" width="100" height="100"/>
-                                </variation>
                                 <connections>
                                     <action selector="playChipmunkAudio:" destination="JnY-nC-5YX" eventType="touchUpInside" id="2aZ-ZU-Rh7"/>
                                 </connections>
@@ -143,9 +135,6 @@
                                 <rect key="frame" x="-23" y="-15" width="46" height="30"/>
                                 <animations/>
                                 <state key="normal" image="DarthVader"/>
-                                <variation key="widthClass=compact" misplaced="YES">
-                                    <rect key="frame" x="251" y="250" width="100" height="100"/>
-                                </variation>
                                 <connections>
                                     <action selector="playDarthVaderAudio:" destination="JnY-nC-5YX" eventType="touchUpInside" id="NJe-X4-bm1"/>
                                 </connections>
@@ -154,9 +143,6 @@
                                 <rect key="frame" x="-23" y="-15" width="46" height="30"/>
                                 <animations/>
                                 <state key="normal" image="PlayFast"/>
-                                <variation key="widthClass=compact" misplaced="YES">
-                                    <rect key="frame" x="251" y="113" width="100" height="100"/>
-                                </variation>
                                 <connections>
                                     <action selector="playFastAudio:" destination="JnY-nC-5YX" eventType="touchUpInside" id="x5x-Sa-Qc3"/>
                                 </connections>
@@ -185,16 +171,16 @@
                                 <exclude reference="bBw-t4-iej"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="Uvu-pL-gkX"/>
-                                <exclude reference="mBq-ey-A0c"/>
-                                <exclude reference="gh7-Qu-bf5"/>
-                                <exclude reference="yB1-zl-xQW"/>
+                                <exclude reference="bi2-jo-edh"/>
                                 <exclude reference="XeZ-BH-f4G"/>
                                 <exclude reference="gRS-Pl-hL7"/>
+                                <exclude reference="gh7-Qu-bf5"/>
+                                <exclude reference="yB1-zl-xQW"/>
+                                <exclude reference="N9S-mj-i39"/>
                                 <exclude reference="4Ol-YP-S27"/>
                                 <exclude reference="UVr-N3-PEr"/>
-                                <exclude reference="N9S-mj-i39"/>
-                                <exclude reference="bi2-jo-edh"/>
+                                <exclude reference="Uvu-pL-gkX"/>
+                                <exclude reference="mBq-ey-A0c"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
@@ -206,16 +192,16 @@
                                 <include reference="bBw-t4-iej"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="Uvu-pL-gkX"/>
-                                <include reference="mBq-ey-A0c"/>
-                                <include reference="gh7-Qu-bf5"/>
-                                <include reference="yB1-zl-xQW"/>
+                                <include reference="bi2-jo-edh"/>
                                 <include reference="XeZ-BH-f4G"/>
                                 <include reference="gRS-Pl-hL7"/>
+                                <include reference="gh7-Qu-bf5"/>
+                                <include reference="yB1-zl-xQW"/>
+                                <include reference="N9S-mj-i39"/>
                                 <include reference="4Ol-YP-S27"/>
                                 <include reference="UVr-N3-PEr"/>
-                                <include reference="N9S-mj-i39"/>
-                                <include reference="bi2-jo-edh"/>
+                                <include reference="Uvu-pL-gkX"/>
+                                <include reference="mBq-ey-A0c"/>
                             </mask>
                         </variation>
                     </view>
