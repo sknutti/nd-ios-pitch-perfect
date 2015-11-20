@@ -18,15 +18,17 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate  {
     @IBOutlet weak var recordingInProgress: UILabel!
     @IBOutlet weak var stopButton: UIButton!
     @IBOutlet weak var helpMessage: UILabel!
-    @IBOutlet weak var resumeButton: UIButton!
     @IBOutlet weak var pauseButton: UIButton!
     
     override func viewWillAppear(animated: Bool) {
         stopButton.hidden = true
         pauseButton.hidden = true
-        resumeButton.hidden = true
         recordButton.enabled = true
         helpMessage.hidden = false
+        
+        if let image = UIImage(named: "Pause") {
+            pauseButton.setImage(image, forState: .Normal)
+        }
     }
 
     @IBAction func recordAudio(sender: UIButton) {
@@ -74,19 +76,21 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate  {
     }
     
     @IBAction func pauseRecording(sender: UIButton) {
-        //TODO: allow user to pause recording and then continue recording
-        pauseButton.hidden = true
-        resumeButton.hidden = false
-        audioRecorder.pause()
+        if (audioRecorder.recording) {
+            audioRecorder.pause()
+            if let image = UIImage(named: "Resume") {
+                pauseButton.setImage(image, forState: .Normal)
+            }
+        } else {
+            audioRecorder.record()
+            if let image = UIImage(named: "Pause") {
+                pauseButton.setImage(image, forState: .Normal)
+            }
+        }
     }
     
-    @IBAction func resumeRecording(sender: UIButton) {
-        resumeButton.hidden = true
-        pauseButton.hidden = false
-        audioRecorder.record()
-    }
-    
-    @IBAction func stopRecording(sender: UIButton) {        recordingInProgress.hidden = true
+    @IBAction func stopRecording(sender: UIButton) {
+        recordingInProgress.hidden = true
         helpMessage.hidden = false
         
         audioRecorder.stop()
