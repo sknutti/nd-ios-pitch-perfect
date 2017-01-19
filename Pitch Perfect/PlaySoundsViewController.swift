@@ -20,7 +20,7 @@ class PlaySoundsViewController: UIViewController {
         super.viewDidLoad()
         
         do {
-            try audioPlayer = AVAudioPlayer(contentsOfURL: receivedAudio.filePathUrl)
+            try audioPlayer = AVAudioPlayer(contentsOf: receivedAudio.filePathUrl as URL)
         } catch let error as NSError {
             showAlert("\(error.localizedDescription)")
         }
@@ -28,45 +28,45 @@ class PlaySoundsViewController: UIViewController {
         
         audioEngine = AVAudioEngine()
         do {
-            try audioFile = AVAudioFile(forReading: receivedAudio.filePathUrl)
+            try audioFile = AVAudioFile(forReading: receivedAudio.filePathUrl as URL)
         } catch let error as NSError {
             showAlert("\(error.localizedDescription)")
         }
     }
 
-    @IBAction func playSlowAudio(sender: UIButton) {
+    @IBAction func playSlowAudio(_ sender: UIButton) {
         playAudio(0.5)
     }
 
-    @IBAction func playFastAudio(sender: UIButton) {
+    @IBAction func playFastAudio(_ sender: UIButton) {
         playAudio(2.0)
     }
     
-    @IBAction func playChipmunkAudio(sender: UIButton) {
+    @IBAction func playChipmunkAudio(_ sender: UIButton) {
         playAudioWithVariablePitch(1000)
     }
     
-    @IBAction func playDarthVaderAudio(sender: UIButton) {
+    @IBAction func playDarthVaderAudio(_ sender: UIButton) {
         playAudioWithVariablePitch(-1000)
     }
     
-    @IBAction func stopAudio(sender: UIButton) {
+    @IBAction func stopAudio(_ sender: UIButton) {
         stopAllAudio()
     }
     
-    @IBAction func playEchoAudio(sender: UIButton) {
+    @IBAction func playEchoAudio(_ sender: UIButton) {
         stopAllAudio()
         let audioPlayerNode = AVAudioPlayerNode()
-        audioEngine.attachNode(audioPlayerNode)
+        audioEngine.attach(audioPlayerNode)
         
         let echoEffect = AVAudioUnitDelay()
-        echoEffect.delayTime = NSTimeInterval(0.3)
-        audioEngine.attachNode(echoEffect)
+        echoEffect.delayTime = TimeInterval(0.3)
+        audioEngine.attach(echoEffect)
         
         audioEngine.connect(audioPlayerNode, to: echoEffect, format: nil)
         audioEngine.connect(echoEffect, to: audioEngine.outputNode, format: nil)
         
-        audioPlayerNode.scheduleFile(audioFile, atTime: nil, completionHandler: nil)
+        audioPlayerNode.scheduleFile(audioFile, at: nil, completionHandler: nil)
         do {
             try audioEngine.start()
         } catch let error as NSError {
@@ -76,20 +76,20 @@ class PlaySoundsViewController: UIViewController {
         audioPlayerNode.play()
     }
     
-    @IBAction func playReverbAudio(sender: UIButton) {
+    @IBAction func playReverbAudio(_ sender: UIButton) {
         stopAllAudio()
         let audioPlayerNode = AVAudioPlayerNode()
-        audioEngine.attachNode(audioPlayerNode)
+        audioEngine.attach(audioPlayerNode)
         
         let reverbEffect = AVAudioUnitReverb()
-        reverbEffect.loadFactoryPreset(.Cathedral)
+        reverbEffect.loadFactoryPreset(.cathedral)
         reverbEffect.wetDryMix = 50
-        audioEngine.attachNode(reverbEffect)
+        audioEngine.attach(reverbEffect)
         
         audioEngine.connect(audioPlayerNode, to: reverbEffect, format: nil)
         audioEngine.connect(reverbEffect, to: audioEngine.outputNode, format: nil)
         
-        audioPlayerNode.scheduleFile(audioFile, atTime: nil, completionHandler: nil)
+        audioPlayerNode.scheduleFile(audioFile, at: nil, completionHandler: nil)
         do {
             try audioEngine.start()
         } catch let error as NSError {
@@ -105,26 +105,26 @@ class PlaySoundsViewController: UIViewController {
         audioEngine.reset()
     }
     
-    func playAudio(playRate: Float) {
+    func playAudio(_ playRate: Float) {
         stopAllAudio()
         audioPlayer.rate = playRate
         audioPlayer.currentTime = 0.0
         audioPlayer.play()
     }
     
-    func playAudioWithVariablePitch(pitch: Float) {
+    func playAudioWithVariablePitch(_ pitch: Float) {
         stopAllAudio()
         let audioPlayerNode = AVAudioPlayerNode()
-        audioEngine.attachNode(audioPlayerNode)
+        audioEngine.attach(audioPlayerNode)
         
         let changePitchEffect = AVAudioUnitTimePitch()
         changePitchEffect.pitch = pitch
-        audioEngine.attachNode(changePitchEffect)
+        audioEngine.attach(changePitchEffect)
         
         audioEngine.connect(audioPlayerNode, to: changePitchEffect, format: nil)
         audioEngine.connect(changePitchEffect, to: audioEngine.outputNode, format: nil)
         
-        audioPlayerNode.scheduleFile(audioFile, atTime: nil, completionHandler: nil)
+        audioPlayerNode.scheduleFile(audioFile, at: nil, completionHandler: nil)
         do {
             try audioEngine.start()
         } catch let error as NSError {
@@ -134,9 +134,9 @@ class PlaySoundsViewController: UIViewController {
         audioPlayerNode.play()
     }
     
-    func showAlert(message: String) {
-        let alert = UIAlertController(title: "Alert", message: message, preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "Click", style: UIAlertActionStyle.Default, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)
+    func showAlert(_ message: String) {
+        let alert = UIAlertController(title: "Alert", message: message, preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Click", style: UIAlertActionStyle.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
 }
